@@ -26,86 +26,25 @@ CONFIG = {
 
 
 def run_proposal_experiments(instances, directory):
-    # myopic_projected_monitoring_losses = []
-    # nonmyopic_projected_monitoring_losses = []
-    # error_groups = []
+    myopic_projected_monitoring_losses = []
+    nonmyopic_projected_monitoring_losses = []
 
-    # # instances = {
-    # #     'instance-0': instances['instance-0']
-    # # }
-    # for instance in instances:
-    #     print('Experiment: %s' % instance)
+    for instance in instances:
+        print('Experiment: %s' % instance)
 
-    #     qualities = instances[instance]['qualities']
-    #     estimated_qualities = instances[instance]['estimated_qualities']
+        qualities = instances[instance]['qualities']
+        estimated_qualities = instances[instance]['estimated_qualities']
 
-    #     file_path = directory + '/' + instance + '.png'
-    #     results = run_proposal_experiment(qualities, estimated_qualities, file_path)
+        file_path = directory + '/' + instance + '.png'
+        results = run_proposal_experiment(qualities, estimated_qualities, file_path)
 
-    #     myopic_projected_monitoring_losses.append(results['myopic_projected_monitoring_loss'])
-    #     nonmyopic_projected_monitoring_losses.append(results['nonmyopic_projected_monitoring_loss'])
-    #     error_groups.append(results['errors'])
+        myopic_projected_monitoring_losses.append(results['myopic_projected_monitoring_loss'])
+        nonmyopic_projected_monitoring_losses.append(results['nonmyopic_projected_monitoring_loss'])
 
-    # print('Nonmyopic Projected Monitoring Average Value: %f' % np.average(nonmyopic_projected_monitoring_losses))
-    # print('Nonmyopic Projected Monitoring Standard Error: %f' % stats.sem(nonmyopic_projected_monitoring_losses))
-    # print('Myopic Projected Monitoring Average Value: %f' % np.average(myopic_projected_monitoring_losses))
-    # print('Myopic Projected Monitoring Standard Error: %f' % stats.sem(myopic_projected_monitoring_losses))
-
-    # with open('text5.txt', 'w') as fp:
-    #     json.dump({'error_groups': error_groups}, fp)
-
-    plt.figure(figsize=(7, 2.5))
-    plt.rcParams["font.family"] = "Times New Roman"
-    plt.rcParams["font.size"] = 14
-    ax = plt.gca()
-    ax.spines['right'].set_visible(False)
-    ax.spines['top'].set_visible(False)
-    plt.rcParams['grid.linestyle'] = "-"
-    plt.grid(True)
-    ax.set_xticklabels(['', 'start', '', '', '', '', 'end'])
-
-    # plt.xlabel('Time Steps')
-    plt.ylabel('Prediction Error (%)')
-
-    colors = {
-        'text1.txt': 'r',
-        'text2.txt': 'g',
-        'text3.txt': 'b',
-        'text4.txt': 'purple',
-        'text5.txt': 'orange'
-    }
-    labels = {
-        'text1.txt': '50-TSP',
-        'text2.txt': '60-TSP',
-        'text3.txt': '70-TSP',
-        'text4.txt': '80-TSP',
-        'text5.txt': '90-TSP'
-    }
-
-    filez = ['text1.txt', 'text2.txt', 'text3.txt', 'text4.txt', 'text5.txt']
-    for filezz in filez:
-        with open(filezz) as fp:
-            error_groups = json.load(fp)['error_groups']
-
-            time_limit = utils.get_max_list_length(error_groups)
-            trimmed_error_groups = utils.get_trimmed_lists(error_groups, time_limit)
-
-            means = []
-            variances = []
-            for step in range(time_limit):
-                error_slices = []
-                for errors in trimmed_error_groups:
-                    error_slices.append(100 * errors[step])
-
-                means.append(np.average(error_slices))
-                variances.append(stats.sem(error_slices))
-
-            plt.plot(np.linspace(0, 1, len(means)), means, color=colors[filezz], alpha=0.6, linewidth=2, label=labels[filezz])
-            plt.fill_between(np.linspace(0, 1, len(means)), np.subtract(means, variances), np.add(means, variances), color='lightsteelblue')
-
-    plt.legend(ncol=2)
-    plt.tight_layout()
-    plt.show()
+    print('Nonmyopic Projected Monitoring Average Value: %f' % np.average(nonmyopic_projected_monitoring_losses))
+    print('Nonmyopic Projected Monitoring Standard Error: %f' % stats.sem(nonmyopic_projected_monitoring_losses))
+    print('Myopic Projected Monitoring Average Value: %f' % np.average(myopic_projected_monitoring_losses))
+    print('Myopic Projected Monitoring Standard Error: %f' % stats.sem(myopic_projected_monitoring_losses))
 
 
 def run_proposal_experiment(qualities, estimated_qualities, file_path):
@@ -123,12 +62,8 @@ def run_proposal_experiment(qualities, estimated_qualities, file_path):
     nonmyopic_projected_stopping_point, nonmyopic_projected_intrinsic_value_groups, errors = monitor.get_nonmyopic_projected_stopping_point(estimated_qualities, steps, time_limit, CONFIG)
 
     optimal_value = comprehensive_values[optimal_stopping_point]
-    # myopic_projected_loss = utils.get_percent_error(optimal_value, comprehensive_values[myopic_projected_stopping_point])
-    # nonmyopic_projected_loss = utils.get_percent_error(optimal_value, comprehensive_values[nonmyopic_projected_stopping_point])
-    # myopic_projected_loss = optimal_value - comprehensive_values[myopic_projected_stopping_point]
-    # nonmyopic_projected_loss = optimal_value - comprehensive_values[nonmyopic_projected_stopping_point]
-    myopic_projected_loss = comprehensive_values[myopic_projected_stopping_point]
-    nonmyopic_projected_loss = comprehensive_values[nonmyopic_projected_stopping_point]
+    myopic_projected_loss = utils.get_percent_error(optimal_value, comprehensive_values[myopic_projected_stopping_point])
+    nonmyopic_projected_loss = utils.get_percent_error(optimal_value, comprehensive_values[nonmyopic_projected_stopping_point])
 
     results = {
         'myopic_projected_monitoring_loss': myopic_projected_loss,
@@ -221,12 +156,8 @@ def run_benchmark_experiment(qualities, estimated_qualities, average_intrinsic_v
     nonmyopic_stopping_point = monitor.get_nonmyopic_stopping_point(estimated_qualities, steps, values, profile_2, profile_3, time_limit, CONFIG)
 
     optimal_value = comprehensive_values[optimal_stopping_point]
-    # myopic_loss = utils.get_percent_error(optimal_value, comprehensive_values[myopic_stopping_point])
-    # nonmyopic_loss = utils.get_percent_error(optimal_value, comprehensive_values[nonmyopic_stopping_point])
-    # myopic_loss = optimal_value - comprehensive_values[myopic_stopping_point]
-    # nonmyopic_loss = optimal_value - comprehensive_values[nonmyopic_stopping_point]
-    myopic_loss = comprehensive_values[myopic_stopping_point]
-    nonmyopic_loss = comprehensive_values[nonmyopic_stopping_point]
+    myopic_loss = utils.get_percent_error(optimal_value, comprehensive_values[myopic_stopping_point])
+    nonmyopic_loss = utils.get_percent_error(optimal_value, comprehensive_values[nonmyopic_stopping_point])
 
     results = {
         'myopic_monitoring_loss': myopic_loss,
@@ -266,9 +197,8 @@ def run_benchmark_experiment(qualities, estimated_qualities, average_intrinsic_v
 
 
 def main():
-    instances = utils.get_instances('simulations/90-tsp-0.1s.json')
-    run_proposal_experiments(instances, 'plots')
-    # run_benchmark_experiments(instances, 'plots')
+    instances = utils.get_instances('simulations/50-tsp-0.1s.json')
+    run_benchmark_experiments(instances, 'plots')
 
 
 if __name__ == '__main__':
