@@ -7,9 +7,9 @@ import monitor
 import performance
 import utils
 
-INTRINSIC_VALUE_MULTIPLIER = 200
+INTRINSIC_VALUE_MULTIPLIER = 100
 TIME_COST_MULTIPLIER = 0.075
-SOLUTION_QUALITY_CLASS_COUNT = 15
+SOLUTION_QUALITY_CLASS_COUNT = 100
 SOLUTION_QUALITY_CLASS_BOUNDS = np.linspace(0, 1, SOLUTION_QUALITY_CLASS_COUNT + 1)
 SOLUTION_QUALITY_CLASSES = range(SOLUTION_QUALITY_CLASS_COUNT)
 MONITOR_THRESHOLD = 10
@@ -59,7 +59,7 @@ def run_proposal_experiment(qualities, estimated_qualities, file_path):
 
     optimal_stopping_point = monitor.get_optimal_stopping_point(comprehensive_values)
     myopic_projected_stopping_point, myopic_projected_intrinsic_value_groups = monitor.get_myopic_projected_stopping_point(estimated_qualities, steps, time_limit, CONFIG)
-    nonmyopic_projected_stopping_point, nonmyopic_projected_intrinsic_value_groups, errors = monitor.get_nonmyopic_projected_stopping_point(estimated_qualities, steps, time_limit, CONFIG)
+    nonmyopic_projected_stopping_point, nonmyopic_projected_intrinsic_value_groups = monitor.get_nonmyopic_projected_stopping_point(estimated_qualities, steps, time_limit, CONFIG)
 
     optimal_value = comprehensive_values[optimal_stopping_point]
     myopic_projected_loss = utils.get_percent_error(optimal_value, comprehensive_values[myopic_projected_stopping_point])
@@ -67,8 +67,7 @@ def run_proposal_experiment(qualities, estimated_qualities, file_path):
 
     results = {
         'myopic_projected_monitoring_loss': myopic_projected_loss,
-        'nonmyopic_projected_monitoring_loss': nonmyopic_projected_loss,
-        'errors': errors
+        'nonmyopic_projected_monitoring_loss': nonmyopic_projected_loss
     }
 
     plt.figure(figsize=(16, 12), dpi=80)
@@ -197,8 +196,8 @@ def run_benchmark_experiment(qualities, estimated_qualities, average_intrinsic_v
 
 
 def main():
-    instances = utils.get_instances('simulations/50-tsp-0.1s.json')
-    run_benchmark_experiments(instances, 'plots')
+    instances = utils.get_instances('simulations/50-tsp.json')
+    run_proposal_experiments(instances, 'plots')
 
 
 if __name__ == '__main__':

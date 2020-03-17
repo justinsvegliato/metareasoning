@@ -114,7 +114,7 @@ def get_policy(values, profile_2, profile_3, config):
                     intrinsic_value = get_intrinsic_values(target_quality, config['intrinsic_value_multiplier'])
                     time_cost = get_time_costs(step, config['time_cost_multiplier'])
                     comprehensive_value = get_comprehensive_values(intrinsic_value, time_cost)
-                    
+
                     stop_value += profile_3[quality_class][step][target_class] * comprehensive_value
                     continue_value += profile_2[quality_class][step][target_class] * values[target_class][step + 1]
 
