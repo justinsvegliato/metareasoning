@@ -1,6 +1,6 @@
 # `online-performance-prediction`
 
-This library allows an intelligent system to decide when to stop thinking and start acting: in particular, the system can use this code to determine when to interrupt an anytime algorithm and act on the current solution by predicting the performance of the anytime algorithm online.
+This experimental framework allows an intelligent system to decide when to stop thinking and start acting: in particular, the system can use this code to determine when to interrupt an anytime algorithm and act on the current solution by predicting the performance of the anytime algorithm online.
 
 ## Run
 
