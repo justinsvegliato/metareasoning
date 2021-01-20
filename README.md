@@ -13,7 +13,7 @@ python experiments.py
 
 Please cite the following paper if you use Morality.js in your own research.
 
-* Meta-Level Control of Anytime Algorithms with Online Performance Prediction.
+* Meta-Level Control of Anytime Algorithms with Online Performance Prediction
 * Justin Svegliato — Kyle Hollins Wray — Shlomo Zilberstein
 * Proceedings of the 27th International Joint Conference of Artificial Intelligence (IJCAI)
 * July 2018
