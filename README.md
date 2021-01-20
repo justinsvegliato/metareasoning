@@ -4,8 +4,8 @@ This library allows an intelligent system to decide when to stop thinking and st
 
 ## Run
 
-In order to run the code, you just have to run the following command in the terminal:
-```bash
+In order to run the experiments in this paper, you just have to run the following command in a terminal window:
+```console
 python experiments.py
 ```
 
